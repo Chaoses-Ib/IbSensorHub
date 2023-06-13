@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="IbSensorHub.Views.Sensors.GeolocationView">
+  <StackPanel>
+    <Grid HorizontalAlignment="Left" Width="175" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+      <Label Grid.Row="0" Grid.Column="0">Latitude:</Label>
+      <Label Grid.Row="0" Grid.Column="1" Content="{Binding Values[0].Value, StringFormat=N4}"/>
+      <Label Grid.Row="1" Grid.Column="0">Longitude:</Label>
+      <Label Grid.Row="1" Grid.Column="1" Content="{Binding Values[1].Value, StringFormat=N4}"/>
+      <Label Grid.Row="2" Grid.Column="0">Altitude:</Label>
+      <Label Grid.Row="2" Grid.Column="1" Content="{Binding Values[2].Value, StringFormat=N4}"/>
+      <Label Grid.Row="3" Grid.Column="0">Speed:</Label>
+      <Label Grid.Row="3" Grid.Column="1" Content="{Binding Values[3].Value, StringFormat=N4}"/>
+      <Label Grid.Row="4" Grid.Column="0">Course:</Label>
+      <Label Grid.Row="4" Grid.Column="1" Content="{Binding Values[4].Value, StringFormat=N4}"/>
+      <Label Grid.Row="5" Grid.Column="0">Accuracy:</Label>
+      <Label Grid.Row="5" Grid.Column="1" Content="{Binding Values[5].Value, StringFormat=N4}"/>
+      <Label Grid.Row="6" Grid.Column="0">Vertical accuracy:</Label>
+      <Label Grid.Row="6" Grid.Column="1" Content="{Binding Values[6].Value, StringFormat=N4}"/>
+    </Grid>
+    <mapsui:MapControl x:Name="MapControl" Width="400" Height="400" />
+  </StackPanel>
+</UserControl>

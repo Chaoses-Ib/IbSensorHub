@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ApplicationId>com.CompanyName.IbSensorHub</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+    <RuntimeIdentifiers Condition="$(TargetFramework.Contains('-android'))">android-arm64;android-arm;android-x86</RuntimeIdentifiers>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AndroidResource Include="Icon.png">
+      <Link>Resources\drawable\Icon.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Android" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Grpc.Core.Xamarin" Version="[2.44.0]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IbSensorHub\IbSensorHub.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <AndroidNativeLibrary Include="$(NuGetPackageRoot)grpc.core.xamarin\2.44.0\native\android\arm64-v8a\libgrpc_csharp_ext.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Abi>arm64-v8a</Abi>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <AndroidNativeLibrary Include="$(NuGetPackageRoot)grpc.core.xamarin\2.44.0\native\android\armeabi-v7a\libgrpc_csharp_ext.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Abi>armeabi-v7a</Abi>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <AndroidNativeLibrary Include="$(NuGetPackageRoot)grpc.core.xamarin\2.44.0\native\android\x86\libgrpc_csharp_ext.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Abi>x86</Abi>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+</Project>

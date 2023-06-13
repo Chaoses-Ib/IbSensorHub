@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="IbSensorHub.Views.Sensors.GyroscopeView">
+  <StackPanel>
+    <Grid HorizontalAlignment="Left" Width="100" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto">
+      <Label Grid.Row="0" Grid.Column="0">X:</Label>
+      <Label Grid.Row="0" Grid.Column="1" Content="{Binding Values[0].Value, StringFormat=N4}"/>
+      <Label Grid.Row="1" Grid.Column="0">Y:</Label>
+      <Label Grid.Row="1" Grid.Column="1" Content="{Binding Values[1].Value, StringFormat=N4}"/>
+      <Label Grid.Row="2" Grid.Column="0">Z:</Label>
+      <Label Grid.Row="2" Grid.Column="1" Content="{Binding Values[2].Value, StringFormat=N4}"/>
+    </Grid>
+    <Grid RowDefinitions="*,*,*" Width="400" Height="900">
+      <lvc:CartesianChart Grid.Row="0" Series="{Binding Series[0]}"/>
+      <lvc:CartesianChart Grid.Row="1" Series="{Binding Series[1]}"/>
+      <lvc:CartesianChart Grid.Row="2" Series="{Binding Series[2]}"/>
+    </Grid>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,81 @@
+syntax = "proto3";
+package ibsensorhub;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "IbSensorHub.Grpc";
+
+// Xamarin: https://learn.microsoft.com/dotnet/maui/platform-integration/device/sensors
+// Android: https://developer.android.com/reference/android/hardware/SensorEvent#values
+enum SensorType {
+    // float[3] { Acceleration.X, Acceleration.Y, Acceleration.Z }
+    Accelerometer = 0;
+
+    // float[1] { PressureInHectopascals }
+    Barometer = 6;
+
+    // float[1] { HeadingMagneticNorth }
+    Compass = 5;
+
+    // float[7] { Latitude, Longitude, Altitude?, Speed?, Course?, Accuracy?, VerticalAccuracy? }
+    // The last five values may be NaN.
+    Geolocation = 7;
+
+    // float[3]
+    //Gravity;
+
+    // float[3] { AngularVelocity.X, AngularVelocity.Y, AngularVelocity.Z }
+    Gyroscope = 1;
+
+    // float[1]
+    //HumidityRelative;
+
+    // float[3]
+    //LinearAcceleration;
+
+    // float[1]
+    //Light;
+
+    // float[3] { MagneticField.X, MagneticField.Y, MagneticField.Z }
+    Magnetometer = 2;
+
+    // float[4] { Orientation.X, Orientation.Y, Orientation.Z, Orientation.W }
+    Orientation = 3;
+
+    // float[1]
+    //Pressure;
+
+    // float[1]
+    //Proximity;
+
+    // float[4]
+    //RotationVector;
+
+    // float[0] { }
+    Shake = 4;
+
+    // float[1]
+    //TemperatureAmbient;
+}
+
+message DeviceInfo {
+    repeated SensorType sensor_types = 1;
+    string host_name = 2;
+    // mac_address
+}
+
+message Sensor {
+    SensorType type = 1;
+}
+
+message SensorData {
+    google.protobuf.Timestamp time = 1;
+    repeated float values = 2;
+}
+
+service SensorService {
+    rpc GetDeviceInfo(google.protobuf.Empty) returns (DeviceInfo);
+    //rpc ReadSensor(Sensor) returns SensorData;
+    rpc ReadSensorChanges(Sensor) returns (stream SensorData);
+}

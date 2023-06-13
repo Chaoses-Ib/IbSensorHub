@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:IbSensorHub.Views"
+             xmlns:sensors="clr-namespace:IbSensorHub.Views.Sensors"
+             xmlns:viewModels="clr-namespace:IbSensorHub.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="IbSensorHub.Views.MainView"
+             >
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <viewModels:MainViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="HeaderedContentControl">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Border ZIndex="1" Padding="5,0,5,0" Margin="5,0,0,0">
+                <TextBlock TextBlock.FontWeight="Bold" Background="White" Text="{TemplateBinding Header}" />
+              </Border>
+              <Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,10,0,0"
+                  BorderBrush="{TemplateBinding Background}"
+                  BorderThickness="1">
+                <ContentPresenter Margin="10" Content="{TemplateBinding Content}" />
+              </Border>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Styles>
+  
+  <DockPanel>
+    <Grid DockPanel.Dock="Top" RowDefinitions="Auto,Auto">
+      <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+        <Label Grid.Row="0" Grid.Column="0">Host name:</Label>
+        <Label Grid.Row="0" Grid.Column="1" Content="{Binding HostName}"/>
+        <Label Grid.Row="1" Grid.Column="0">Local addresses:</Label>
+        <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding LocalAddresses}" MaxHeight="80">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock>
+                <Run Text="{Binding Address}"></Run>
+                <Run Text=":"/>
+                <Run Text="{Binding $parent[ListBox].DataContext.Port}"/>
+                <Run Text=" "/>
+                <Run Text="{Binding NetworkInterface}" FontSize="12" Foreground="Gray"></Run>
+              </TextBlock>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+      <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto">
+        <Label Grid.Row="0" Grid.Column="0">Target address:</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TargetAddress}"/>
+        <Button Grid.Row="0" Grid.Column="2" IsEnabled="{Binding !Connected}" Content="Connect" Command="{Binding Connect}"/>
+        <Button Grid.Row="0" Grid.Column="3" IsEnabled="{Binding Connected}" Content="Disconnect" Command="{Binding Disconnect}"/>
+      </Grid>
+    </Grid>
+    <ScrollViewer>
+      <WrapPanel>
+        <HeaderedContentControl Header="Accelerometer" Background="Black">
+          <sensors:AccelerometerView DataContext="{Binding Accelerometer}" />
+        </HeaderedContentControl>
+        <HeaderedContentControl Header="Gyroscope" Background="Black">
+          <sensors:GyroscopeView DataContext="{Binding Gyroscope}" />
+        </HeaderedContentControl>
+        <HeaderedContentControl Header="Geolocation" Background="Black">
+          <sensors:GeolocationView DataContext="{Binding Geolocation}" />
+        </HeaderedContentControl>
+        <HeaderedContentControl Header="Compass" Background="Black">
+          <sensors:CompassView DataContext="{Binding Compass}" />
+        </HeaderedContentControl>
+      </WrapPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>
